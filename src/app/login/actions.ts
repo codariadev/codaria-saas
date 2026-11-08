@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { getUserByEmail, verifyPassword } from "@/lib/auth";
+import { createSession, getUserByEmail, verifyPassword } from "@/lib/auth";
 
 export async function loginAction(email:string, password:string) {
     const user = await getUserByEmail(email);
@@ -21,6 +21,6 @@ export async function loginAction(email:string, password:string) {
     });
     return { redirect: "/change-password" };
   }
-
+    await createSession(user.id);
     return { redirect: "/dashboard" };
 }
